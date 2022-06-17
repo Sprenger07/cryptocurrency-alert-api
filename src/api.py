@@ -19,6 +19,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+try:
+    cluster.server_info()
+
+except:
+    raise "Error you are Not connected to the DataBase"
+
 
 
 @app.get("/")

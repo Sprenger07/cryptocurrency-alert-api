@@ -21,6 +21,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+try:
+    cluster.server_info()
+
+except:
+    raise "Error you are Not connected to the DataBase"
+
+
 @app.get("/")
 async def home():
     return {"hello" : "world"}
@@ -57,9 +64,11 @@ async def get_user():
 #GET /user/
 
 @app.get("/user/", response_model=User, response_model_exclude={"password"})
-async def get_user(mail : str):
+async def get_user(mail : str, password : str):
     try:
-        return usersEntity(userlist_db.find({"mail" : mail}))[0]
+        password = hashlib.sha256(old_password.encode('utf-8')).hexdigest()
+        if usersEntity(userlist_db.find({"mail" : mail, "password" : password}))[0]:
+            return {"mail" : mail, "password" : password}
     except:
         raise HTTPException(status_code=404, detail="User do not exist")
 
@@ -72,7 +81,7 @@ async def update_password(mail, old_password, new_password):
 
     try:
         password = hashlib.sha256(old_password.encode('utf-8')).hexdigest()
-        if usersEntity(userlist_db.find({"mail" : mail, "password" : password})):
+        if usersEntity(userlist_db.find({"mail" : mail, "password" : password}))[0]:
             password = hashlib.sha256(new_password.encode('utf-8')).hexdigest()
             userlist_db.update_one({"mail" : mail}, {"$set":{"password" : password}})
             return {"mail" : mail, "password" : password}

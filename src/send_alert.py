@@ -5,7 +5,7 @@ from pydantic import BaseModel
 import pymongo
 from pymongo import MongoClient
 
-import constants
+from constants import *
 from methods import *
 
 url = 'https://rest.coinapi.io/v1/assets'
@@ -17,6 +17,14 @@ if response.status_code == 429:
     raise "To many request to Coin API"
 
 
+try:
+    cluster.server_info()
+
+except:
+    raise "Error you are Not connected to the DataBase"
+
+
+
 # To a list of all alert to send
 #GET /alert/
 
@@ -26,9 +34,6 @@ def get_all_alert_to_send():
 
     for i in range(LIMITER):
         data = jsonResponse[i]
-
-        if limiteur >= 1000:
-            break
 
         try:
             price = int(data["price_usd"])
