@@ -69,10 +69,14 @@ async def get_user():
 async def get_user(mail : str, password : str):
     try:
         password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-        if usersEntity(userlist_db.find({"mail" : mail})):
+        if usersEntity(userlist_db.find({"mail" : mail, "password" : password})):
             return {"mail" : mail, "password" : password}
+        raise
     except:
-        raise HTTPException(status_code=404, detail="User do not exist")
+        if usersEntity(userlist_db.find({"mail" : mail})):
+            raise HTTPException(status_code=404, detail="Wrong Password")
+        else:
+            raise HTTPException(status_code=404, detail="User do not exist")
 
 
 # To update particular user
