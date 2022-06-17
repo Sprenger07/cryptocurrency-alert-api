@@ -56,7 +56,7 @@ async def get_user():
     try:
         return usersEntity(userlist_db.find({}))
     except:
-        raise HTTPException(status_code=404, detail="User already exist")
+        raise HTTPException(status_code=404, detail="Impossible to load the database")
 
 
 
@@ -66,8 +66,8 @@ async def get_user():
 @app.get("/user/", response_model=User, response_model_exclude={"password"})
 async def get_user(mail : str, password : str):
     try:
-        password = hashlib.sha256(old_password.encode('utf-8')).hexdigest()
-        if usersEntity(userlist_db.find({"mail" : mail, "password" : password}))[0]:
+        password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        if usersEntity(userlist_db.find({"mail" : mail})):
             return {"mail" : mail, "password" : password}
     except:
         raise HTTPException(status_code=404, detail="User do not exist")
