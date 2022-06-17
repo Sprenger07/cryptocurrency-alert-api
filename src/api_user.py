@@ -91,6 +91,7 @@ async def update_password(mail, old_password, new_password):
             password = hashlib.sha256(new_password.encode('utf-8')).hexdigest()
             userlist_db.update_one({"mail" : mail}, {"$set":{"password" : password}})
             return {"mail" : mail, "password" : password}
+        raise
     except:
         raise HTTPException(status_code=404, detail="Wrong mail or password")
 
@@ -99,10 +100,13 @@ async def update_password(mail, old_password, new_password):
 
 @app.delete("/user/", response_model=User, response_model_exclude={"password"})
 async def delete_user(mail, password):
-    password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-    if usersEntity(userlist_db.find({"mail" : mail, "password" : password})):
-        userlist_db.delete_one({"mail" : mail, "password" : password})
-        return ({"mail" : mail, "password" : password})
+    try:
+        password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        if usersEntity(userlist_db.find({"mail" : mail, "password" : password})):
+            userlist_db.delete_one({"mail" : mail, "password" : password})
+            return ({"mail" : mail, "password" : password})
+    except:
+        raise    
     else:
         raise HTTPException(status_code=404, detail="Wrong User or password")
 
