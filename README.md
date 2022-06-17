@@ -1,15 +1,33 @@
 # REST API Cryptocurrency Alert
 
-
+Here is my cryptocurrency alert api
 
 ## Install
 
     pip install -r requirements.txt 
+    
+    
+## Configuration
+
+Please put your own database and your api key in the file `/src/constants.py
 
 ## Run the api in /src/
 
     uvicorn api:app --host localhost --port 8000
     uvicorn api_user:app --host localhost --port 8001
+
+## Run alert
+
+`python3 src/send_alert.py` 
+
+## Documentation:
+
+Swagger :
+<br>
+`http://127.0.0.1:8000/docs`
+<br>
+`http://127.0.0.1:8001/docs`
+
 
 
 ## Get all alert
