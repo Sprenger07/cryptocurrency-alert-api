@@ -26,9 +26,9 @@ Please put your own database and your api key in the file `/src/constants.py`
 
 Swagger :
 <br>
-`http://127.0.0.1:8000/docs`
+http://127.0.0.1:8000/docs
 <br>
-`http://127.0.0.1:8001/docs`
+http://127.0.0.1:8001/docs
 
 
 
@@ -63,7 +63,9 @@ Swagger :
 
 `POST /alert/`
 
+```sh
 curl -X 'POST' 'http://127.0.0.1:8000/alert/?mail=leo%40gmail.com&currency=ETH&price=2000&method=below' -H 'accept: application/json' -d ''
+```
 
 ### Response
 
