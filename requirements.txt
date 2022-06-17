@@ -1,5 +1,4 @@
 pymongo
 fastapi
 uvicorn
-json
 typing
