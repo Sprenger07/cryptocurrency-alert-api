@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>My alerts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+
+<div id="container" class="flex w-full h-screen items-center justify-center">
+
+    <div class="flex">
+
+        <!-- Login / Register left pane -->
+        <div class="flex flex-col w-fit p-10 space-y-8">
+            <h2 class="text-3xl font-extrabold uppercase">Account</h2>
+            <div class="space-y-6 flex flex-col">
+                <input id="email" name="email" type="email" autocomplete="email" required
+                       placeholder="Email address"
+                       class="w-80 appearance-none rounded-none px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none">
+                <input id="password" name="password" type="password" autocomplete="password" required
+                       placeholder="Password"
+                       class="appearance-none rounded-none px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none">
+                <p id="error_message" class="text-red-600 font-medium text-sm">  </p>
+                <div class="space-x-2 flex">
+                    <button id="login"
+                            class="outline-none items-center flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
+                        Login
+                    </button>
+                    <button id="register"
+                            class="outline-none items-center flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
+                        Register
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Content pane -->
+        <div class="border-l-2 border-gray-900 flex flex-col w-fit p-10 space-y-8">
+            <div>
+                <h2 class="text-3xl font-extrabold flex items-center uppercase">Create an alert</h2>
+                <p>as <strong class="font-medium">username</strong></p>
+                <p id="error_alert" class="text-red-600 font-medium text-sm"> </p>
+            </div>
+            <div class="space-x-4 flex">
+                <input id="currency" name="currency" type="text" autocomplete="currency" required
+                       placeholder="Currency"
+                       class="appearance-none rounded-none px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none">
+                <input id="method" name="method" type="text" autocomplete="method" required
+                       placeholder="Below or Above"
+                       class="appearance-none rounded-none px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none">
+                <input id="treshold" name="treshold" type="text" autocomplete="treshold" required
+                       placeholder="3000"
+                       class="appearance-none rounded-none px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none">
+                <div class="space-x-2 flex">
+                    <button id="add-currency"
+                            class="outline-none items-center flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
+                        Add
+                    </button>
+
+                    <button id="delete"
+                            class="outline-none items-center flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
+                        Delete
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="align-middle inline-block w-full shadow border-b border-gray-200">
+                <table class="w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Currency
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Method
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Treshold
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="table-content" class="bg-white divide-y divide-gray-200">
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="alert.js"></script>
+</body>
+</html>
