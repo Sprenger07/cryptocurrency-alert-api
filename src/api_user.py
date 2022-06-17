@@ -43,7 +43,9 @@ async def create_user(mail, password):
             password = hashlib.sha256(password.encode('utf-8')).hexdigest()
             new_user = {"mail" : mail, "password" : password}
             userlist_db.insert_one(new_user)
-            return new_user
+            return {"mail" : mail, "password" : password}
+        else:
+            raise
     except:
         raise HTTPException(status_code=404, detail="User already exist")
 
