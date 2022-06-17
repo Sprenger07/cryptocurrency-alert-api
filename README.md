@@ -6,10 +6,12 @@ Here is my cryptocurrency alert api
 
     pip install -r requirements.txt 
     
-    
+
 ## Configuration
 
-Please put your own database and your api key in the file `/src/constants.py
+Please put your own database and your api key in the file `/src/constants.py`
+
+![constants](https://user-images.githubusercontent.com/55802491/174245740-2c579c06-607d-438b-b2a8-a163d9cdf97b.JPG)
 
 ## Run the api in /src/
 
