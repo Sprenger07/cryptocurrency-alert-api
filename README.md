@@ -2,6 +2,7 @@
 
 Here is my cryptocurrency alert api
 
+![final_62ac952a9389eb0089a45399_711725](https://user-images.githubusercontent.com/55802491/174327793-bef1c4b0-67db-43f0-a0dc-71863a27ed0d.gif)
 ## Install
 
     pip install -r requirements.txt 
@@ -22,6 +23,7 @@ Please put your own database and your api key in the file `/src/constants.py`
 
 `python3 src/send_alert.py` 
 
+![final_62ac952a9389eb0089a45399_699961](https://user-images.githubusercontent.com/55802491/174327828-618faea7-7f34-4b7b-bab1-ad269d474d99.gif)
 ## Documentation:
 
 Swagger :
