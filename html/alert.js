@@ -33,8 +33,9 @@ const loginButton = document.getElementById("login");
 
 function init_table()
 {
-    axios.get(`http://37.187.55.169:8000/alert?mail=${emailInput.value}`).then((response) => {
+    axios.get(`http://127.0.0.1:8000/alert?mail=${emailInput.value}`).then((response) => {
         console.log(response.data);
+        table.innerHTML = "";
         response.data.forEach((element) => {
             appendRow(element.currency, element.method, element.price);
         })
@@ -45,7 +46,8 @@ function init_table()
 }
 
 loginButton.onclick = () => {
-    axios.get(`http://37.187.55.169:8001/user?mail=${emailInput.value}&password=${passwordInput.value}`).then((response) => {
+    error_message.innerHTML = ""
+    axios.get(`http://127.0.0.1:8001/user?mail=${emailInput.value}&password=${passwordInput.value}`).then((response) => {
         console.log(response.data);
         init_table()
     }).catch((error) => {
@@ -58,7 +60,8 @@ loginButton.onclick = () => {
 const registerButton = document.getElementById("register");
 
 registerButton.onclick = () => {
-    axios.post(`http://37.187.55.169:8001/user?mail=${emailInput.value}&password=${passwordInput.value}`).then((response) => {
+    error_alert.innerHTML = ""
+    axios.post(`http://127.0.0.1:8001/user?mail=${emailInput.value}&password=${passwordInput.value}`).then((response) => {
         console.log(response.data);
         init_table()
     }).catch((error) => {
@@ -78,9 +81,9 @@ const deleteButton = document.getElementById("delete");
 
 
 addButton.onclick = () => {
-    axios.post(`http://37.187.55.169:8000/alert/?mail=${emailInput.value}&currency=${currencyInput.value}&price=${tresholdInput.value}&method=${methodInput.value}`).then((response) => {
+    error_alert.innerHTML = ""
+    axios.post(`http://127.0.0.1:8000/alert/?mail=${emailInput.value}&currency=${currencyInput.value}&price=${tresholdInput.value}&method=${methodInput.value}`).then((response) => {
         console.log(response.data);
-        error_alert.innerHTML = ""
         appendRow(response.data.currency, response.data.method, response.data.price);
     }).catch((error) => {
         console.log(error);
@@ -91,10 +94,10 @@ addButton.onclick = () => {
 
 deleteButton.onclick = () =>
 {
-    table.remove()
     error_alert.innerHTML = ""
-    axios.delete(`http://37.187.55.169:8000/all_alert?mail=${emailInput.value}`).then((response) => {
+    axios.delete(`http://127.0.0.1:8000/alert/?mail=${emailInput.value}&currency=${currencyInput.value}&price=${tresholdInput.value}&method=${methodInput.value}`).then((response) => {
         console.log(response.data);
+        init_table()
     }).catch((error) => {
         console.log(error);
         error_alert.innerHTML = error.response.data.detail
