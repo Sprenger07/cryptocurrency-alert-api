@@ -1,15 +1,30 @@
 import pymongo
 from pymongo import MongoClient
 
+from dotenv import load_dotenv
+
+load_dotenv()
+import os
+
+
+
+MONGO_DB = os.getenv("MONGO_DB_SERV")
+KEY = os.getenv("API_KEY")
+
+
 # Please put your own database
-cluster = MongoClient("mongodb://mongoAdmin:changeMe@37.187.55.169:27017")
+
+# cluster = MongoClient("mongodb://Login:Password@localhost:27017")
+cluster = MongoClient(MONGO_DB)
+
 db = cluster["Seelk"]
 alert_db = db["alert"]
 userlist_db = db["userlist"]
 
+
+
 # Get your own key at the following address: https://www.coinapi.io/
-COIN_API_KEY = {'X-CoinAPI-Key' : 'CD4B6E6E-BBE4-4D87-8142-FED6064FD80F'}
+COIN_API_KEY = {'X-CoinAPI-Key': f'{KEY}'}
 
-
-# Variable to limit the execution time of the program but you are free to modify this value at your convenience 
+# Variable to limit the execution time of the program but you are free to modify this value at your convenience
 LIMITER = 1000
