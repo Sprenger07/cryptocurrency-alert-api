@@ -1,35 +1,87 @@
 from pydantic import BaseModel
+import re
+import requests
+from constants import *
+
+
+class MailError(Exception):
+    pass
+
+
+class PasswordError(Exception):
+    pass
+
+
+class UserExistError(Exception):
+    pass
+
+
+class UserNotFoundError(Exception):
+    pass
+
+
+class MethodError(Exception):
+    pass
+
+
+class CurrencyError(Exception):
+    pass
+
+
+class AlertError(Exception):
+    pass
+
 
 class Alert(BaseModel):
-    mail : str
-    currency : str
-    price : int
-    method : str
+    mail: str
+    currency: str
+    price: int
+    method: str
 
 
-def alertEntity(item) -> dict:
+def alert_entity(item) -> dict:
     return {
-        "mail" : str(item["mail"]),
-        "currency" : str(item["currency"]),
-        "price" : int(item["price"]),
-        "method" : str(item["method"])
+        "mail": str(item["mail"]),
+        "currency": str(item["currency"]),
+        "price": int(item["price"]),
+        "method": str(item["method"])
     }
 
-def alertsEntity(entity) -> list:
-    return [alertEntity(item) for item in entity]
+
+def alerts_entity(entity) -> list:
+    return [alert_entity(item) for item in entity]
 
 
-#===================================================#
+# ===================================================#
 
 class User(BaseModel):
-    mail : str
-    password : str
+    mail: str
+    password: str
 
-def userEntity(item) -> dict:
+
+def user_entity(item) -> dict:
     return {
-        "mail" : str(item["mail"]),
-        "password" : str(item["password"])
+        "mail": str(item["mail"]),
+        "password": str(item["password"])
     }
 
-def usersEntity(entity) -> list:
-    return [userEntity(items) for items in entity]
+
+def users_entity(entity) -> list:
+    return [user_entity(items) for items in entity]
+
+
+def is_valid_mail(mail):
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    return re.fullmatch(regex, mail)
+
+
+def is_valid_password(password):
+    regex = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$'
+    return re.fullmatch(regex, password)
+
+
+def is_valid_currency(currency):
+    url = f"https://rest.coinapi.io/v1/assets/{currency}"
+    headers = COIN_API_KEY
+    response = requests.get(url, headers=headers)
+    return response.content != b'[]'

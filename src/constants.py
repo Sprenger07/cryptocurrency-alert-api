@@ -9,7 +9,7 @@ import os
 
 
 MONGO_DB = os.getenv("MONGO_DB_SERV")
-KEY = os.getenv("API_KEY")
+API_KEY = os.getenv("KEY")
 
 
 # Please put your own database
@@ -24,7 +24,7 @@ userlist_db = db["userlist"]
 
 
 # Get your own key at the following address: https://www.coinapi.io/
-COIN_API_KEY = {'X-CoinAPI-Key': f'{KEY}'}
+COIN_API_KEY = {"X-CoinAPI-Key": f"{API_KEY}"}
 
 # Variable to limit the execution time of the program but you are free to modify this value at your convenience
 LIMITER = 1000
