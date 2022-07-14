@@ -33,9 +33,6 @@ echo $'KEY="DF0EB4B3-YOUR-API-KEY"' >> src/.env
 Swagger :
 <br>
 http://127.0.0.1:8000/docs
-<br>
-http://127.0.0.1:8001/docs
-
 
 
 ## Get all alert
@@ -44,19 +41,19 @@ http://127.0.0.1:8001/docs
 
 `GET /alert/`
 
-    curl -X 'GET' 'http://127.0.0.1:8000/alert/?mail=leo%40gmail.com' -H 'accept: application/json'
+    curl -X 'GET' 'http://127.0.0.1:8000/alert/?mail=test@gmail.com&password=1234abcd@' -H 'accept: application/json'
 
 ### Response
 ```json
 [
   {
-    "mail": "leo@gmail.com",
+    "mail": "test@gmail.com",
     "currency": "BTC",
     "price": 1000,
     "method": "above"
   },
   {
-    "mail": "leo@gmail.com",
+    "mail": "test@gmail.com",
     "currency": "BTC",
     "price": 0,
     "method": "above"
@@ -70,7 +67,7 @@ http://127.0.0.1:8001/docs
 `POST /alert/`
 
 ```sh
-curl -X 'POST' 'http://127.0.0.1:8000/alert/?mail=leo%40gmail.com&currency=ETH&price=2000&method=below' -H 'accept: application/json' -d ''
+curl -X 'POST' 'http://127.0.0.1:8000/alert/?mail=test@gmail.com&password=1234abcd@&currency=ETH&price=2000&method=below' -H 'accept: application/json' -d ''
 ```
 
 ### Response
@@ -78,7 +75,7 @@ curl -X 'POST' 'http://127.0.0.1:8000/alert/?mail=leo%40gmail.com&currency=ETH&p
 ```json
 
 {
-  "mail": "leo@gmail.com",
+  "mail": "test@gmail.com",
   "currency": "ETH",
   "price": 2000,
   "method": "below"
@@ -90,15 +87,15 @@ curl -X 'POST' 'http://127.0.0.1:8000/alert/?mail=leo%40gmail.com&currency=ETH&p
 ### Request
 
 `DELETE /alert/`
-
-    curl -X 'DELETE' 'http://127.0.0.1:8000/alert/?mail=leo%40gmail.com&currency=ETH&price=2000&method=below' -H 'accept: application/json'
-
+```sh
+curl -X 'DELETE' 'http://127.0.0.1:8000/alert/?mail=test@gmail.com&password=1234abcd@&currency=ETH&price=2000&method=below' -H 'accept: application/json'
+```
 ### Response
 
 ```json
 
 {
-  "mail": "leo@gmail.com",
+  "mail": "test@gmail.com",
   "currency": "ETH",
   "price": 2000,
   "method": "below"
@@ -106,35 +103,19 @@ curl -X 'POST' 'http://127.0.0.1:8000/alert/?mail=leo%40gmail.com&currency=ETH&p
 
 ```
 
-## Get a particular user
-
-### Request
-
-`GET /user/`
-
-    curl -X 'GET' 'http://127.0.0.1:8001/user/?mail=leo%40gmail.com' -H 'accept: application/json'
-
-### Response
-
-```json
-{
-  "mail": "leo@gmail.com"
-}
-```
-
 ## Change password of an user
 
 ### Request
 
 `PUT /user/`
-
-curl -X 'PUT' 'http://127.0.0.1:8001/user/?mail=leo%40gmail.com&old_password=1234&new_password=abcd' -H 'accept: application/json'
-
+```sh
+curl -X 'PUT' 'http://127.0.0.1:8000/user/?mail=test@gmail.com&old_password=1234abcd@&new_password=@1234abcd' -H 'accept: application/json'
+```
 ### Response
 
 ```json
 {
-  "mail": "leo@gmail.com"
+  "mail": "test@gmail.com"
 }
 ```
 
@@ -143,9 +124,9 @@ curl -X 'PUT' 'http://127.0.0.1:8001/user/?mail=leo%40gmail.com&old_password=123
 ### Request
 
 `POST /user/`
-
-    curl -X 'POST' http://127.0.0.1:8001/user/?mail=pierre%40gmail&password=pierre' -H 'accept: application/json' -d ''
-
+```sh
+    curl -X 'POST' http://127.0.0.1:8000/user/?mail=pierre@gmail&password=pierre' -H 'accept: application/json' -d ''
+```
 ### Response
 
 ```json
@@ -159,39 +140,13 @@ curl -X 'PUT' 'http://127.0.0.1:8001/user/?mail=leo%40gmail.com&old_password=123
 ### Request
 
 `DELETE /user/`
-  
-  curl -X 'DELETE' 'http://127.0.0.1:8001/user/?mail=leo%40gmail.com&password=abcd' -H 'accept: application/json'
-
+```sh
+  curl -X 'DELETE' 'http://127.0.0.1:8000/user/?mail=test@gmail.com&password=1234abcd@' -H 'accept: application/json'
+```
 ### Response
 
 ```json
 {
   "mail": "leo@gmail.com"
 }
-```
-
-## Gel all user
-
-### Request
-
-`GET /all_user/
-
-    curl -X 'GET' 'http://127.0.0.1:8001/all_user/' -H 'accept: application/json'
-
-### Response
-
-```json
-[
-  {
-    "mail": "paul@gmail.com"
-  },
-  {
-    "mail": "pierre@gmail.com"
-  },
-  {
-    "mail": "jaques@gmail.com"
-  }
-]
-
-
 ```
