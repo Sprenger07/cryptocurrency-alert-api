@@ -1,13 +1,9 @@
-import pymongo
-from pymongo import MongoClient
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
+
 from typing import List
-import json
 import hashlib
 
-from constants import *
 from methods import *
 
 app = FastAPI()

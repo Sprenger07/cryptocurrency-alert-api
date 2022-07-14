@@ -1,17 +1,8 @@
-import requests
-
-import json
-from pydantic import BaseModel
-import pymongo
-from pymongo import MongoClient
-
-from constants import *
 from methods import *
 
 url = 'https://rest.coinapi.io/v1/assets'
 headers = COIN_API_KEY
 response = requests.get(url, headers=headers)
-
 
 if response.status_code == 429:
     raise "To many request to Coin API"
@@ -23,9 +14,25 @@ except:
     raise "Error you are Not connected to the DataBase"
 
 
+def db_filter(currency, price):
+    query = {"$and":
+                 [{"currency": currency},
+                  {"$or":
+                       [{"$and":
+                             [{"price": {"$gte": price}},
+                              {"method": "below"}]
+                         },
+                        {"$and":
+                             [{"price": {"$lte": price}},
+                              {"method": "above"}]
+                         }]
+                   }]
+             }
+    return query
+
 
 # To a list of all alert to send
-#GET /alert/
+# GET /alert/
 
 def get_all_alert_to_send():
     list_cryto = alert_db.distinct('currency')
@@ -37,7 +44,7 @@ def get_all_alert_to_send():
 
         price = data[0]["price_usd"]
 
-        query = filter(curr, price)
+        query = db_filter(curr, price)
         list_of_all_alert += alerts_entity(alert_db.find(query))
     return list_of_all_alert
 
@@ -54,26 +61,6 @@ def sends_Message(list_of_alert):
 
         content = f"Message for {mail} : The price of {currency} is {method} ${price}"
         print(content)
-
-
-
-
-
-def filter(currency, price):
-    query = {"$and":
-                 [{"currency": currency},
-                  {"$or":
-                       [{"$and":
-                             [{"price": {"$gte": price}},
-                              {"method": "below"}]
-                         },
-                        {"$and":
-                             [{"price": {"$lte": price}},
-                              {"method": "above"}]
-                         }]
-                   }]
-             }
-    return query
 
 
 if __name__ == "__main__":

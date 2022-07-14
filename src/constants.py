@@ -1,4 +1,3 @@
-import pymongo
 from pymongo import MongoClient
 
 from dotenv import load_dotenv
@@ -25,5 +24,3 @@ userlist_db = db["userlist"]
 # Get your own key at the following address: https://www.coinapi.io/
 COIN_API_KEY = {"X-CoinAPI-Key": f"{API_KEY}"}
 
-# Variable to limit the execution time of the program but you are free to modify this value at your convenience
-LIMITER = 1000
