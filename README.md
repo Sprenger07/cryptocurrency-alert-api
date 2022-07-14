@@ -10,14 +10,18 @@ Here is my cryptocurrency alert api
 
 ## Configuration
 
-Please put your own database and your api key in the file `/src/constants.py`
+```sh
+echo $'MONGO_DB_SERV="mongodb://mongoAdmin:changeMe@localhost:27017"' >> src/.env
+```
 
-![constants](https://user-images.githubusercontent.com/55802491/174245740-2c579c06-607d-438b-b2a8-a163d9cdf97b.JPG)
+```sh
+echo $'KEY="DF0EB4B3-YOUR-API-KEY"' >> src/.env
+``` 
+
 
 ## Run the api in /src/
 
     uvicorn api:app --host localhost --port 8000
-    uvicorn api_user:app --host localhost --port 8001
 
 ## Run alert
 
