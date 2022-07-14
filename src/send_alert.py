@@ -16,7 +16,6 @@ response = requests.get(url, headers=headers)
 if response.status_code == 429:
     raise "To many request to Coin API"
 
-
 try:
     cluster.server_info()
 
@@ -29,31 +28,17 @@ except:
 #GET /alert/
 
 def get_all_alert_to_send():
+    list_cryto = alert_db.distinct('currency')
     list_of_all_alert = []
-    jsonResponse = response.json()
+    for curr in list_cryto:
+        url_curr = f'https://rest.coinapi.io/v1/assets/{curr}'
+        response_curr = (requests.get(url_curr, headers=headers))
+        data = response_curr.json()
 
-    for i in range(LIMITER):
-        data = jsonResponse[i]
+        price = data[0]["price_usd"]
 
-        try:
-            price = int(data["price_usd"])
-            currency = str(data["asset_id"])
-            query = {"$and" : 
-                    [{"currency" : currency }, 
-                    {"$or" : 
-                        [{"$and" : 
-                            [{"price": { "$gte": price }}, 
-                            {"method" : "below"}]
-                        }, 
-                        {"$and" : 
-                            [{"price": { "$lte": price }},
-                             {"method" : "above"}]
-                        }]
-                    }]
-                }
-            list_of_all_alert += alertsEntity(alert_db.find(query))
-        except:
-            continue
+        query = filter(curr, price)
+        list_of_all_alert += alerts_entity(alert_db.find(query))
     return list_of_all_alert
 
 
@@ -69,6 +54,26 @@ def sends_Message(list_of_alert):
 
         content = f"Message for {mail} : The price of {currency} is {method} ${price}"
         print(content)
+
+
+
+
+
+def filter(currency, price):
+    query = {"$and":
+                 [{"currency": currency},
+                  {"$or":
+                       [{"$and":
+                             [{"price": {"$gte": price}},
+                              {"method": "below"}]
+                         },
+                        {"$and":
+                             [{"price": {"$lte": price}},
+                              {"method": "above"}]
+                         }]
+                   }]
+             }
+    return query
 
 
 if __name__ == "__main__":

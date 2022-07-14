@@ -3,10 +3,9 @@ from pymongo import MongoClient
 
 from dotenv import load_dotenv
 
-load_dotenv()
 import os
 
-
+load_dotenv()
 
 MONGO_DB = os.getenv("MONGO_DB_SERV")
 API_KEY = os.getenv("KEY")
