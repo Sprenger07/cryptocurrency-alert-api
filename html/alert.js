@@ -47,7 +47,7 @@ function init_table()
 
 loginButton.onclick = () => {
     error_message.innerHTML = ""
-    axios.get(`http://127.0.0.1:8001/user?mail=${emailInput.value}&password=${passwordInput.value}`).then((response) => {
+    axios.get(`http://127.0.0.1:8000/user?mail=${emailInput.value}&password=${passwordInput.value}`).then((response) => {
         console.log(response.data);
         init_table()
     }).catch((error) => {
@@ -61,7 +61,7 @@ const registerButton = document.getElementById("register");
 
 registerButton.onclick = () => {
     error_alert.innerHTML = ""
-    axios.post(`http://127.0.0.1:8001/user?mail=${emailInput.value}&password=${passwordInput.value}`).then((response) => {
+    axios.post(`http://127.0.0.1:8000/user?mail=${emailInput.value}&password=${passwordInput.value}`).then((response) => {
         console.log(response.data);
         init_table()
     }).catch((error) => {
@@ -82,7 +82,7 @@ const deleteButton = document.getElementById("delete");
 
 addButton.onclick = () => {
     error_alert.innerHTML = ""
-    axios.post(`http://127.0.0.1:8000/alert/?mail=${emailInput.value}&currency=${currencyInput.value}&price=${tresholdInput.value}&method=${methodInput.value}`).then((response) => {
+    axios.post(`http://127.0.0.1:8000/alert/?mail=${emailInput.value}&password=${passwordInput.value}&currency=${currencyInput.value}&price=${tresholdInput.value}&method=${methodInput.value}`).then((response) => {
         console.log(response.data);
         appendRow(response.data.currency, response.data.method, response.data.price);
     }).catch((error) => {
@@ -95,7 +95,7 @@ addButton.onclick = () => {
 deleteButton.onclick = () =>
 {
     error_alert.innerHTML = ""
-    axios.delete(`http://127.0.0.1:8000/alert/?mail=${emailInput.value}&currency=${currencyInput.value}&price=${tresholdInput.value}&method=${methodInput.value}`).then((response) => {
+    axios.delete(`http://127.0.0.1:8000/alert/?mail=${emailInput.value}&password=${passwordInput.value}&currency=${currencyInput.value}&price=${tresholdInput.value}&method=${methodInput.value}`).then((response) => {
         console.log(response.data);
         init_table()
     }).catch((error) => {
