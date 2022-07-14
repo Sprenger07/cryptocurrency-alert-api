@@ -1,6 +1,7 @@
 const table = document.getElementById("table-content");
 const error_message = document.getElementById("error_message");
 const error_alert = document.getElementById("error_alert")
+const connected = document.getElementById("connected")
 
 function clearRows() {
     table.innerHTML = "";
@@ -33,7 +34,7 @@ const loginButton = document.getElementById("login");
 
 function init_table()
 {
-    axios.get(`http://127.0.0.1:8000/alert?mail=${emailInput.value}`).then((response) => {
+    axios.get(`http://127.0.0.1:8000/alert?mail=${emailInput.value}&password=${passwordInput.value}`).then((response) => {
         console.log(response.data);
         table.innerHTML = "";
         response.data.forEach((element) => {
@@ -42,7 +43,7 @@ function init_table()
 
     }).catch((error) => {
         console.log(error);
-    })   
+    })
 }
 
 loginButton.onclick = () => {
@@ -50,6 +51,7 @@ loginButton.onclick = () => {
     axios.get(`http://127.0.0.1:8000/user?mail=${emailInput.value}&password=${passwordInput.value}`).then((response) => {
         console.log(response.data);
         init_table()
+        connected.innerHTML = `${emailInput.value}`
     }).catch((error) => {
         console.log(error);
         error_message.innerHTML = error.response.data.detail
@@ -63,7 +65,9 @@ registerButton.onclick = () => {
     error_alert.innerHTML = ""
     axios.post(`http://127.0.0.1:8000/user?mail=${emailInput.value}&password=${passwordInput.value}`).then((response) => {
         console.log(response.data);
+        error_alert.innerHTML = ""
         init_table()
+        connected.innerHTML = `${emailInput.value}`
     }).catch((error) => {
         console.log(error);
         error_message.innerHTML = error.response.data.detail
