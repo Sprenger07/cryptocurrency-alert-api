@@ -22,22 +22,19 @@ app.add_middleware(
 
 try:
     cluster.server_info()
-
 except:
     raise "Error you are Not connected to the DataBase"
 
-
-
 @app.get("/")
 async def home():
-    return {"hello" : "word"}
+    return {"hello": "word"}
 
 
 # To post user
 # POST /user/
 
 @app.post("/user/", response_model=User, response_model_exclude={"password"})
-async def create_user(mail, password):
+async def create_user(mail: str, password: str):
     try:
         if not usersEntity(userlist_db.find({"mail": mail})):
             password = hashlib.sha256(password.encode('utf-8')).hexdigest()
@@ -48,17 +45,6 @@ async def create_user(mail, password):
             raise
     except:
         raise HTTPException(status_code=404, detail="User already exist")
-
-
-# To get all users
-# GET /all_users/
-
-@app.get("/all_user/", response_model=List[User], response_model_exclude={"password"})
-async def get_user():
-    try:
-        return usersEntity(userlist_db.find({}))
-    except:
-        raise HTTPException(status_code=404, detail="Impossible to load the database")
 
 
 # To get one user
@@ -82,7 +68,7 @@ async def get_user(mail: str, password: str):
 # PUT /user/
 
 @app.put("/user/", response_model=User, response_model_exclude={"password"})
-async def update_password(mail, old_password, new_password):
+async def update_password(mail: str, old_password: str, new_password: str):
     try:
         password = hashlib.sha256(old_password.encode('utf-8')).hexdigest()
         if usersEntity(userlist_db.find({"mail": mail, "password": password}))[0]:
@@ -98,7 +84,7 @@ async def update_password(mail, old_password, new_password):
 # DELETE /user/
 
 @app.delete("/user/", response_model=User, response_model_exclude={"password"})
-async def delete_user(mail, password):
+async def delete_user(mail: str, password: str):
     try:
         password = hashlib.sha256(password.encode('utf-8')).hexdigest()
         if usersEntity(userlist_db.find({"mail": mail, "password": password})):
@@ -111,20 +97,21 @@ async def delete_user(mail, password):
 
 
 # To get all alert
-#GET /alert/
+# GET /alert/
 
 @app.get("/alert/", response_model=List[Alert])
-async def get_my_alert(mail : str):
+async def get_my_alert(mail: str, password: str):
     try:
-        return alertsEntity(alert_db.find({"mail" : mail}))
+        return alertsEntity(alert_db.find({"mail": mail}))
     except:
         raise HTTPException(status_code=404, detail="ERROR")
 
 # To post an alert
-#POST /alert/
+# POST /alert/
 
-@app.post("/alert/" , response_model=Alert)
-async def  create_alert(mail : str, currency : str, price: int, method : str):
+
+@app.post("/alert/", response_model=Alert)
+async def  create_alert(mail : str, password: str, currency : str, price: int, method : str):
     try :
         if method == "above" or method == "below":
             alert = {"mail" : mail, "currency" : currency, "price" : price, "method" : method}
@@ -136,15 +123,15 @@ async def  create_alert(mail : str, currency : str, price: int, method : str):
         if not (method == "above" or method == "below"):
             error_message = "Wrong syntax method, method should be 'below' or 'above'"
         raise HTTPException(status_code=404, detail=error_message)
-        
+
 
 # To delete particular alert
-#DELETE /alert/
+# DELETE /alert/
 
 @app.delete("/alert/", response_model=Alert)
-async def delete_alert(mail : str, currency : str, price: int, method : str):
+async def delete_alert(mail: str, password: str,currency: str, price: int, method: str):
     try:
-        alert = {"mail" : mail, "currency" : currency, "price" : price, "method" : method}
+        alert = {"mail": mail, "currency" : currency, "price" : price, "method" : method}
         if alert_db.find(alert)[0]:
             alert_db.delete_one(alert)
             return alert
@@ -152,16 +139,3 @@ async def delete_alert(mail : str, currency : str, price: int, method : str):
             raise
     except:
         raise HTTPException(status_code=404, detail="Alert do not exist")
-
-
-@app.delete("/all_alert/", response_model=List[Alert])
-async def delete_all_alert(mail : str):
-    try:
-        all_alert = alertsEntity(alert_db.find({"mail": mail}))
-        if all_alert:
-            alert_db.delete_many({"mail": mail})
-            return all_alert
-        else:
-            raise
-    except:
-        raise HTTPException(status_code=404, detail="You dont have alert")
