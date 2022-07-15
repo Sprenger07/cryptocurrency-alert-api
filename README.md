@@ -28,6 +28,9 @@ echo $'KEY="DF0EB4B3-YOUR-API-KEY"' >> src/.env
 pytest
 ```
 
+![final_62d14257de2219008ff1fcf5_219918](https://user-images.githubusercontent.com/55802491/179208426-8eefecde-954a-40eb-bf78-094e9f277732.gif)
+
+
 
 ## Run alert
 
