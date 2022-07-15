@@ -20,12 +20,20 @@ echo $'KEY="DF0EB4B3-YOUR-API-KEY"' >> src/.env
 
 
 ## Run the api in /src/
-
+```sh
     uvicorn api:app --host localhost --port 8000
+```
+## Run test
+```sh
+pytest
+```
+
 
 ## Run alert
 
-`python3 src/send_alert.py` 
+```sh
+python3 src/send_alert.py
+``` 
 
 ![final_62ac952a9389eb0089a45399_699961](https://user-images.githubusercontent.com/55802491/174327828-618faea7-7f34-4b7b-bab1-ad269d474d99.gif)
 ## Documentation:
