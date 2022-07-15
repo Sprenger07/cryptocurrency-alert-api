@@ -1,6 +1,6 @@
 from methods import *
 
-url = 'https://rest.coinapi.io/v1/assets'
+url = "https://rest.coinapi.io/v1/assets"
 headers = COIN_API_KEY
 response = requests.get(url, headers=headers)
 
@@ -15,31 +15,30 @@ except:
 
 
 def db_filter(currency, price):
-    query = {"$and":
-                 [{"currency": currency},
-                  {"$or":
-                       [{"$and":
-                             [{"price": {"$gte": price}},
-                              {"method": "below"}]
-                         },
-                        {"$and":
-                             [{"price": {"$lte": price}},
-                              {"method": "above"}]
-                         }]
-                   }]
-             }
+    query = {
+        "$and": [
+            {"currency": currency},
+            {
+                "$or": [
+                    {"$and": [{"price": {"$gte": price}}, {"method": "below"}]},
+                    {"$and": [{"price": {"$lte": price}}, {"method": "above"}]},
+                ]
+            },
+        ]
+    }
     return query
 
 
 # To a list of all alert to send
 # GET /alert/
 
+
 def get_all_alert_to_send():
-    list_cryto = alert_db.distinct('currency')
+    list_cryto = alert_db.distinct("currency")
     list_of_all_alert = []
     for curr in list_cryto:
-        url_curr = f'https://rest.coinapi.io/v1/assets/{curr}'
-        response_curr = (requests.get(url_curr, headers=headers))
+        url_curr = f"https://rest.coinapi.io/v1/assets/{curr}"
+        response_curr = requests.get(url_curr, headers=headers)
         data = response_curr.json()
 
         price = data[0]["price_usd"]
@@ -50,6 +49,7 @@ def get_all_alert_to_send():
 
 
 # To a list of all alert to send
+
 
 def sends_Message(list_of_alert):
     for data in list_of_alert:

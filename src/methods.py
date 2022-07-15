@@ -44,7 +44,7 @@ def alert_entity(item) -> dict:
         "mail": str(item["mail"]),
         "currency": str(item["currency"]),
         "price": int(item["price"]),
-        "method": str(item["method"])
+        "method": str(item["method"]),
     }
 
 
@@ -54,16 +54,14 @@ def alerts_entity(entity) -> list:
 
 # ===================================================#
 
+
 class User(BaseModel):
     mail: str
     password: str
 
 
 def user_entity(item) -> dict:
-    return {
-        "mail": str(item["mail"]),
-        "password": str(item["password"])
-    }
+    return {"mail": str(item["mail"]), "password": str(item["password"])}
 
 
 def users_entity(entity) -> list:
@@ -71,12 +69,12 @@ def users_entity(entity) -> list:
 
 
 def is_valid_mail(mail):
-    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    regex = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
     return re.fullmatch(regex, mail)
 
 
 def is_valid_password(password):
-    regex = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$'
+    regex = r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
     return re.fullmatch(regex, password)
 
 
@@ -84,4 +82,4 @@ def is_valid_currency(currency):
     url = f"https://rest.coinapi.io/v1/assets/{currency}"
     headers = COIN_API_KEY
     response = requests.get(url, headers=headers)
-    return response.content != b'[]'
+    return response.content != b"[]"
