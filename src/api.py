@@ -175,6 +175,16 @@ async def create_alert(
             status_code=404, detail="Crypto currency is not available on COINS-API"
         )
 
+    except CoinApiError:
+        url = "https://rest.coinapi.io/v1/assets"
+        headers = COIN_API_KEY
+        response = requests.get(url, headers=headers)
+
+        raise HTTPException(
+            status_code=404,
+            detail=f"There is a problem with COINS-API, code error :{response.status_code}",
+        )
+
     except:
         raise HTTPException(status_code=404, detail="error")
 

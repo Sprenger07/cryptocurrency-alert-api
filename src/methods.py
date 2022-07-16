@@ -32,6 +32,10 @@ class AlertError(Exception):
     pass
 
 
+class CoinApiError(Exception):
+    pass
+
+
 class Alert(BaseModel):
     mail: str
     currency: str
@@ -82,4 +86,8 @@ def is_valid_currency(currency):
     url = f"https://rest.coinapi.io/v1/assets/{currency}"
     headers = COIN_API_KEY
     response = requests.get(url, headers=headers)
+
+    if response.status_code != 200:
+        raise CoinApiError
+
     return response.content != b"[]"
