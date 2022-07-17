@@ -1,7 +1,8 @@
 from pydantic import BaseModel
 import re
 import requests
-from constants import *
+
+import constants
 
 
 class MailError(Exception):
@@ -84,7 +85,7 @@ def is_valid_password(password):
 
 def is_valid_currency(currency):
     url = f"https://rest.coinapi.io/v1/assets/{currency}"
-    headers = COIN_API_KEY
+    headers = constants.COIN_API_KEY
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:

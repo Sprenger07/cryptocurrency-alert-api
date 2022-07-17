@@ -107,7 +107,8 @@ def test_user_change_password():
     password = "abcd1234@"
     new_password = "1234abcd@"
     response = requests.put(
-        f"http://localhost:8000/user/?mail={mail}&old_password={password}&new_password={new_password}"
+        f"http://localhost:8000/user/?mail="
+        f"{mail}&old_password={password}&new_password={new_password}"
     )
     assert response.status_code == 200
 
@@ -117,7 +118,8 @@ def test_user_change_password_2():
     password = "1234abcd@"
     new_password = "abcd1234@"
     response = requests.put(
-        f"http://localhost:8000/user/?mail={mail}&old_password={password}&new_password={new_password}"
+        f"http://localhost:8000/user/"
+        f"?mail={mail}&old_password={password}&new_password={new_password}"
     )
     assert response.status_code == 200
 
@@ -127,7 +129,8 @@ def test_user_change_wrong_password():
     password = "abcd1234"
     new_password = "abcd1234"
     response = requests.put(
-        f"http://localhost:8000/user/?mail={mail}&old_password={password}&new_password={new_password}"
+        f"http://localhost:8000/user/"
+        f"?mail={mail}&old_password={password}&new_password={new_password}"
     )
     assert response.status_code == 404
 
@@ -137,7 +140,8 @@ def test_user_change_not_valid_password():
     password = "abcd1234"
     new_password = "abcd"
     response = requests.put(
-        f"http://localhost:8000/user/?mail={mail}&old_password={password}&new_password={new_password}"
+        f"http://localhost:8000/user/"
+        f"?mail={mail}&old_password={password}&new_password={new_password}"
     )
     assert response.status_code == 404
 

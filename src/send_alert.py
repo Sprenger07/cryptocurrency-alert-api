@@ -1,16 +1,19 @@
-from methods import *
+import requests
+
+import methods
+import constants
 
 url = "https://rest.coinapi.io/v1/assets"
-headers = COIN_API_KEY
+headers = constants.COIN_API_KEY
 response = requests.get(url, headers=headers)
 
 if response.status_code == 429:
     raise "To many request to Coin API"
 
 try:
-    cluster.server_info()
+    constants.cluster.server_info()
 
-except:
+except Exception:
     raise "Error you are Not connected to the DataBase"
 
 
@@ -20,8 +23,12 @@ def db_filter(currency, price):
             {"currency": currency},
             {
                 "$or": [
-                    {"$and": [{"price": {"$gte": price}}, {"method": "below"}]},
-                    {"$and": [{"price": {"$lte": price}}, {"method": "above"}]},
+                    {"$and": [
+                        {"price": {"$gte": price}}, {"method": "below"}
+                    ]},
+                    {"$and": [
+                        {"price": {"$lte": price}}, {"method": "above"}
+                    ]},
                 ]
             },
         ]
@@ -34,24 +41,29 @@ def db_filter(currency, price):
 
 
 def get_all_alert_to_send():
-    list_cryto = alert_db.distinct("currency")
-    list_of_all_alert = []
-    for curr in list_cryto:
+    list_crypto = constants.alert_db.distinct("currency")
+    list_alert = []
+    for curr in list_crypto:
         url_curr = f"https://rest.coinapi.io/v1/assets/{curr}"
         response_curr = requests.get(url_curr, headers=headers)
         data = response_curr.json()
 
-        price = data[0]["price_usd"]
+        if len(data) <= 0:
+            continue
+
+        price = data[0].get("price_usd")
+        if price is None:
+            continue
 
         query = db_filter(curr, price)
-        list_of_all_alert += alerts_entity(alert_db.find(query))
-    return list_of_all_alert
+        list_alert += methods.alerts_entity(constants.alert_db.find(query))
+    return list_alert
 
 
 # To a list of all alert to send
 
 
-def sends_Message(list_of_alert):
+def sends_message(list_of_alert):
     for data in list_of_alert:
         mail = data["mail"]
 
@@ -59,9 +71,12 @@ def sends_Message(list_of_alert):
         method = data["method"]
         price = data["price"]
 
-        content = f"Message for {mail} : The price of {currency} is {method} ${price}"
+        content = (
+            f"Message for {mail} : "
+            f"The price of {currency} is {method} ${price}"
+        )
         print(content)
 
 
 if __name__ == "__main__":
-    sends_Message(get_all_alert_to_send())
+    sends_message(get_all_alert_to_send())
