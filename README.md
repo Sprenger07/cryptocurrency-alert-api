@@ -11,13 +11,13 @@ Here is my cryptocurrency alert api
 ## Configuration
 
 ```sh
-echo $'MONGO_DB_SERV="mongodb://mongoAdmin:changeMe@localhost:27017"' >> src/.env
+export MONGO_DB_SERV="mongodb://mongoAdmin:changeMe@localhost:27017" >> src/.env
 ```
 
 Get your own private key on the website https://www.coinapi.io/
 
 ```sh
-echo $'KEY="DF0EB4B3-YOUR-API-KEY"' >> src/.env
+export KEY="DF0EB4B3-YOUR-API-KEY" >> src/.env
 ``` 
 
 
